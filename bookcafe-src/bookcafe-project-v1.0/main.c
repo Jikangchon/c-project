@@ -106,6 +106,8 @@ void add() {
 //-- 그 index에 있는 값을 삭제(NULL)
 
 void del() {
+	 
+
 
 	//-- 책이름을 검색하고, 그 책 이름이 있는 배열 index를 추출
 	char search_txt[100];
