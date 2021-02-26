@@ -29,7 +29,7 @@ int main(void) {
 
 	while (1) {
 
-		printf("명령어를 입력하세요 > ");
+		printf("\nSEARCH >  ");
 		scanf("%s", command);
 		// command = "add" 추가 엑션 
 		// command = "find" 검색 엑션
@@ -102,8 +102,32 @@ void add() {
 	book_idx++;
 }
 
+//-- 배열로 입력된 값들을 검색해서, 해당 배열 index를 가지고 
+//-- 그 index에 있는 값을 삭제(NULL)
+
 void del() {
-	printf("del함수 호출!\n");
+
+	//-- 책이름을 검색하고, 그 책 이름이 있는 배열 index를 추출
+	char search_txt[100];
+	scanf("%s", search_txt);
+
+	//-- 사용자로 부터 받은 값, '검색어'와 book_names[x]에 있는 '책이름'이 일치하는지 확인
+	//-- 그 index를 삭제
+
+	for (int i = 0; i < book_idx; i++) {
+		//-- 문자열 비교가 필요함. strcmp()
+		if (strcmp(book_name[i], search_txt) == 0) { // book_name[i], search_text가 같으면 동작
+			book_name[i] = book_name[book_idx -1];
+			book_author[i] = book_author[book_idx -1];
+			printf("'%s'가 삭제되었습니다.", search_txt);
+			book_idx--;
+			return;
+		}
+	} // search_txt != book_name[i] 같지 않은 경우는 !== book_idx
+	// 책이름이 'ABC', 'BBB', 'CCC', 'ODD' 라고 총 4개가 있을 경우
+	//-- search_txt = BBB라고 조회를 하면
+
+	printf("책 이름이 '%s'인 책은 존재하지 않습니다.", search_txt);
 }
 
 void list() {
