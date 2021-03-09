@@ -157,12 +157,74 @@ void find() {
 	printf("책 목록 중, '%s'라는 책은 없습니다.\n", buf1);
 }
 
+// save 파일명 -> scanf("%s") 는 command (메인함수) 변수에 들어간다 "save"
 void save() {
-	printf("save 함수 호출!\n");
+	
+	char fileName[100]; //저장할 파일이름
+
+	scanf("%s", fileName); // 저장할 파일이름
+
+ 	FILE* fp = fopen(fileName, "w");
+
+	if (fp == NULL) {
+		printf("파일명 %s를 열지 못했습니다.", fileName);
+		return;
+	}
+
+	for (int i = 0; i < book_idx; i++) {
+		fprintf(fp, "%d,%s,%s\n", (i+1), book_name[i], book_author[i]);
+	}
+
+
+	fclose(fp);
 }
 
+// read 파일명 -> 1번 scanf("%s") command 변수에 들어가며, 값은 "read" 
 void read() {
-	printf("read 함수 호출!\n");
+
+	char fileName[100]; // 2번째 scanf("%s")로 파일명이 저장된다.
+	int no = 0;
+	char* input_book_name;
+	char* input_book_author;
+
+	scanf("%s", fileName);
+	
+	FILE* fp = fopen(fileName, "r");
+	if (fp == NULL) {
+		printf("파일 %s를 여는데 실패하였습니다.\n", fileName);
+		return;
+	}
+	// 1. 책제목, 작가
+	/*
+	while (fscanf(fp,"%d", &no)) {
+		fscanf(fp, "%s", book_name);
+		fscanf(fp, "%s", book_author);
+
+		book_name[book_idx] = book_name;
+		book_author[book_idx] = book_author;
+		book_idx++;
+	}
+	*/
+	//-- fgets
+	char line[100];
+	book_idx = 0;
+
+	while (fgets(line, 100, fp) != NULL) {
+		strtok(line, ",");
+		input_book_name = strtok(NULL, ",");
+		input_book_author = strtok(NULL, ",");
+		book_name[book_idx] = ex_strdup(input_book_name);
+		book_author[book_idx] = ex_strdup(input_book_author);
+		book_idx++;
+	}
+
+	
+
+
+	fclose(fp);
+
+
+	//printf("read 함수 호출!\n");
 }
 
 void help() {
